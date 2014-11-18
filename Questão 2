@@ -1,0 +1,42 @@
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+	
+	pid_t pidFilho; //armazena o retorno do fork, se -1 entao falhou, se 0 fork teve sucesso e esta dentro processo filho, caso outro  valor fork teve sucesso e esta no processo Pai!
+	int statusFilho, qntFilhos;
+	pid_t pid;	
+	printf("Insira q quantidade de processos filhos a serem criados\n");
+	scanf("%d",&qntFilhos);
+	if (qntFilhos < 1){
+	printf("Qnt invalida");
+	exit(1);
+	}
+	
+	
+	//realiza qntFilhos forks de processos
+	int i;
+	for(i=0; i<qntFilhos; i++){
+		pidFilho = fork();  //realiza o fork
+		
+		//o processo filho continua  o codigo a partir daqui.
+		 //switch para verificar se esta no processo filho ou no pai
+		 switch (pidFilho){
+		 	case -1: // fork() falhou
+					printf("Falha na criacao do processo filho!");
+					exit(1);
+			case 0:  // estamos dentro do processo filho, pois qnd pidFilho == 0 o fork teve sucesso!
+					pid = getpid();
+					printf("Eu sou o %d-esimo filho e meu PID e %d\n",i,pid);
+					exit(0);
+			//default: // terminou o processo filho, agora continua a executar no pai
+					//wait(&statusFilho); 
+		}	
+	}
+	pid_t idPai = getpid();
+printf("Eu sou o processo pai e meu PID e %d\n", idPai);
+	
+return 0;
+}
