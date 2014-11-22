@@ -1,0 +1,35 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void *Imprime (void *userid){
+	int id = (int) userid;
+	pthread_t soID = pthread_self();
+	long tID = gettid();
+	printf("Eu sou Thread%d e meus ID's sao %u e %ld\n",id,soID, tID); 
+	pthread_exit(NULL);
+}
+/*pthread_self() =>  retorna o ID que foi atribuido pela biblioteca pthread.h
+	tID = retorna o ID que foi atribuido pelo kernel*/
+
+int main(){
+	
+int nmrThreads;
+printf("Insira a quantidade de Threads a serem criadas. ");
+scanf("%d",&nmrThreads);
+
+pthread_t  threads[nmrThreads]; //cria um vetor para receber os IDs das threads criadas
+int rc; // valor de retorno do metodo de criaçao da thread para ser usado para verificar se a thread foi criada corretamente;
+
+int i;
+	for(i=1; i <= nmrThreads ; i++){
+		printf("Criando a Thread %2d\n" ,i);
+		rc =pthread_create(&threads[i],NULL, Imprime, (void *) i);
+		if(rc){
+			printf("Erro na criaçao da Thread. Codigo: %d\n", rc);
+			exit(1);
+		}
+	}
+	pthread_exit(NULL);
+exit(0);
+}
