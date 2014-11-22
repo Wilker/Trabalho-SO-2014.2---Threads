@@ -25,18 +25,21 @@ int main(){
 		 //switch para verificar se esta no processo filho ou no pai
 		 switch (pidFilho){
 		 	case -1: // fork() falhou
-					printf("Falha na criacao do processo filho!");
+					printf("Falha na criacao do processo filho!\n");
 					exit(1);
 			case 0:  // estamos dentro do processo filho, pois qnd pidFilho == 0 o fork teve sucesso!
 					pid = getpid();
 					printf("Eu sou o %d-esimo filho e meu PID e %d\n",i,pid);
 					exit(0);
 			//default: // terminou o processo filho, agora continua a executar no pai
-					//wait(&statusFilho); 
 		}	
 	}
 	pid_t idPai = getpid();
-printf("Eu sou o processo pai e meu PID e %d\n", idPai);
+    printf("Eu sou o processo pai e meu PID e %d\n", idPai);
 	
-return 0;
+	return 0;
 }
+/*As saidas diferentes sao obtidas pois, cada processo depois de criado pode ser preemptado pelo SO. Escalonando outro para ser 
+executado no lugar dele ao inves de continuar sua execuçao ate o termino deste. podendo ate mesmo o processo Pai terminar antes 
+de todos seus filhos terem executados.*/
+
