@@ -5,7 +5,7 @@
 void *Imprime (void *userid){
 	int id = (int) userid;
 	pthread_t soID = pthread_self();
-	printf("Eu sou Thread%2d e meu ID %U\n",id,soID); 
+	printf("Eu sou Thread%2d e meu ID %u\n",id,soID); 
 	pthread_exit(NULL);
 }
 
@@ -20,7 +20,7 @@ pthread_t  threads[nmrThreads]; //cria um vetor para receber os IDs das threads 
 int rc; // valor de retorno do metodo de criaçao da thread para ser usado para verificar se a thread foi criada corretamente;
 
 int i;
-	for(i=0; i < nmrThreads ; i++){
+	for(i=1; i <= nmrThreads ; i++){
 		printf("Criando a Thread %2d\n" ,i);
 		rc =pthread_create(&threads[i],NULL, Imprime, (void *) i);
 		if(rc){
