@@ -1,12 +1,13 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/syscall.h>
 
-void *Imprime (void *userid){
-	int id = (int) userid;
-	pthread_t soID = pthread_self();
-	long tID = gettid();
-	printf("Eu sou Thread%d e meus ID's sao %u e %ld\n",id,soID, tID); 
+void* Imprime (void* userid){
+	long id = (long) userid;
+	long soID = pthread_self();
+	pid_t tID = syscall(SYS_gettid);
+	printf("Eu sou Thread%ld e meus ID's sao %u e %u\n",id,(unsigned int)soID, tID); 
 	pthread_exit(NULL);
 }
 /*pthread_self() =>  retorna o ID que foi atribuido pela biblioteca pthread.h
@@ -24,7 +25,7 @@ int rc; // valor de retorno do metodo de criaçao da thread para ser usado para 
 int i;
 	for(i=1; i <= nmrThreads ; i++){
 		printf("Criando a Thread %2d\n" ,i);
-		rc =pthread_create(&threads[i],NULL, Imprime, (void *) i);
+		rc =pthread_create(&threads[i],NULL, Imprime, (void*)i);
 		if(rc){
 			printf("Erro na criaçao da Thread. Codigo: %d\n", rc);
 			exit(1);
