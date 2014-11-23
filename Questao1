@@ -3,9 +3,10 @@
 #include <stdlib.h>
 
 void *Imprime (void *userid){
-	int id = (int) userid;
+	long id;
+	id = (long)userid;
 	pthread_t soID = pthread_self();
-	printf("Eu sou Thread%2d e meu ID %u\n",id,soID); 
+	printf("Eu sou Thread%ld e meu ID %u\n",id,(unsigned int)soID); 
 	pthread_exit(NULL);
 }
 
@@ -22,7 +23,7 @@ int rc; // valor de retorno do metodo de criaçao da thread para ser usado para 
 int i;
 	for(i=1; i <= nmrThreads ; i++){
 		printf("Criando a Thread %2d\n" ,i);
-		rc =pthread_create(&threads[i],NULL, Imprime, (void *) i);
+		rc =pthread_create(&threads[i],NULL, Imprime, (void*) i);
 		if(rc){
 			printf("Erro na criaçao da Thread. Codigo: %d\n", rc);
 			exit(1);
