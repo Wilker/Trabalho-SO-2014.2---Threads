@@ -42,4 +42,3 @@ int main(){
 /*As saidas diferentes sao obtidas pois, cada processo depois de criado pode ser preemptado pelo SO. Escalonando outro para ser 
 executado no lugar dele ao inves de continuar sua execuçao ate o termino deste. podendo ate mesmo o processo Pai terminar antes 
 de todos seus filhos terem executados.*/
-
